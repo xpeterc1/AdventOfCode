@@ -1,0 +1,3 @@
+[submodule "scr"]
+	path = scr
+	url = https://github.com/xpeterc1/AdventOfCode.git

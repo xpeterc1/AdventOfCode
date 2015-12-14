@@ -13,7 +13,7 @@ import AdventUtil.AdventFileReader;
 public class Day14 {
 	//Day 14: Reindeer Olympics
 	static int PUZZLE_INPUT = 2503;
-	
+
 	public static void main(String... args) throws IOException{
 		List<String> lines = AdventFileReader.getLines("Day14input.txt");
 		Map<String, Reindeer> reindeers = new HashMap<String, Reindeer>();
@@ -31,21 +31,32 @@ public class Day14 {
 			}
 		}
 		List<String> reindeerNameList = new ArrayList<String>(reindeers.keySet());
+		int leadDistance = -1;
 		for(int i = 0; i < PUZZLE_INPUT; i++){
 			for(String name: reindeerNameList){
+				if(leadDistance == reindeers.get(name).getDistance()){
+					reindeers.get(name).addPoint();
+				}
 				reindeers.get(name).increment();
 			}
+			leadDistance = reindeers.get(reindeerNameList.get(0)).getMaxDistance();
+			
 		}
-		System.out.println("Part 1: " + reindeers.get(reindeerNameList.get(0)).getMax());
+		System.out.println("Part 1: " + reindeers.get(reindeerNameList.get(0)).getMaxDistance());
+		System.out.println("Part 2: " + reindeers.get(reindeerNameList.get(0)).getMaxPoints());
+
 	}
+	
 	static class Reindeer{
 		private int speed, seconds, restTime;
 		static int maxDistanceTraveled = 0;
+		static int maxPoint = 0;
+
 
 		private int distanceTraveled = 0;
 		private int travelTime = 0;
 		private int restCooldown = 0;
-		private boolean cooldown = false;
+		private int points = 0;
 
 		public Reindeer(int speed, int seconds, int restTime){
 			this.speed = speed;
@@ -56,8 +67,13 @@ public class Day14 {
 		public void increment(){
 			if(restCooldown == 0){
 				distanceTraveled += speed;
-				if(distanceTraveled > maxDistanceTraveled) maxDistanceTraveled = distanceTraveled;
 				travelTime++;
+				if(this.distanceTraveled > maxDistanceTraveled){ 
+					maxDistanceTraveled = this.distanceTraveled;
+				}
+				if(points > maxPoint){
+					maxPoint = this.points;
+				}
 				if(travelTime == seconds){
 					travelTime = 0;
 					restCooldown = restTime;
@@ -65,10 +81,21 @@ public class Day14 {
 			}else{
 				restCooldown--;
 			}
+			
+		}
+		public int getDistance(){
+			return distanceTraveled;
 		}
 		
-		public int getMax(){
+		public void addPoint(){
+			this.points++;
+		}
+		public int getMaxDistance(){
 			return maxDistanceTraveled;
 		}
+		public int getMaxPoints(){
+			return maxPoint;
+		}
+	
 	}
 }

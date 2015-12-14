@@ -19,6 +19,7 @@ public class Day13 {
 		ArrayList<String> lines = AdventFileReader.getLines("Day13input.txt");
 		Pattern pat = Pattern.compile("([a-zA-z]+) would (gain|lose) (\\d+) happiness units by sitting next to ([a-zA-Z]+)\\.");
 		Matcher mat = null;
+		
 		for(String line: lines){
 			mat = pat.matcher(line);
 			if(mat.find() && !tableGuest.containsKey(mat.group(1))){
@@ -37,14 +38,15 @@ public class Day13 {
 	
 	public static int computeHappiness(Map<String, Person> tableGuest){
 		List<String> list = new ArrayList<String>(tableGuest.keySet());
-		int size = tableGuest.keySet().size();
 		Set<List<String>> perm = permutation(list);
 		Set<Integer> happinessList = new HashSet<Integer>(perm.size());
+		int size = tableGuest.keySet().size();
+
 		for(List<String> l: perm){
 			int happiness = 0;
 			for(int i = 0; i < l.size(); i++){
-				happiness += tableGuest.get(l.get(i)).getValue(l.get((i+1)%size));
-				happiness += tableGuest.get(l.get(i)).getValue(l.get(((i-1) == -1? size-1:i-1)%size));
+				happiness += tableGuest.get(l.get(i)).getValue(l.get((i+1)%size)); //Right person of circular buffer
+				happiness += tableGuest.get(l.get(i)).getValue(l.get(((i-1) == -1? size-1:i-1)%size));  //Left person of circular buffer
 			}
 			happinessList.add(happiness);
 		}

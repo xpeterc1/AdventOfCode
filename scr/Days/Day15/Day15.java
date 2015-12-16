@@ -11,7 +11,8 @@ import AdventUtil.AdventFileReader;
 
 public class Day15 {
 	public static int TEASPOONS = 100;
-	
+	public static int CALORIES_TARGET = 500;
+
 	public static void main(String... args) throws Exception{
 		List<String> lines = AdventFileReader.getLines("Day15input.txt");
 		List<Ingredient> ingredient = new ArrayList<Ingredient>();
@@ -29,6 +30,7 @@ public class Day15 {
 		}
 		List<ArrayList<Integer>> recpies = multichoose(TEASPOONS, ingredient.size());
 		List<Integer> scoresPart1 = new ArrayList<Integer>();
+		List<Integer> scoresPart2 = new ArrayList<Integer>();
 
 		for(List<Integer> ingredientAmount: recpies){
 			int length = ingredientAmount.size();
@@ -43,7 +45,6 @@ public class Day15 {
 				ingredientTotal[2] += ingred.getFlavor() * amount;
 				ingredientTotal[3] += ingred.getTexture() * amount;
 				ingredientTotal[4] += ingred.getCalories() * amount;
-
 			}
 
 			int total = 1;
@@ -51,8 +52,13 @@ public class Day15 {
 				total *= ingredientTotal[i] < 0? 0 : ingredientTotal[i];
 			}
 			scoresPart1.add(total);
+			if(ingredientTotal[4] == CALORIES_TARGET){
+				scoresPart2.add(total);
+			}
 		}
 		System.out.println("Part 1: " + Collections.max(scoresPart1));
+		System.out.println("Part 2: " + Collections.max(scoresPart2));
+
 	}
 
 	public static ArrayList<ArrayList<Integer>> multichoose(int target, int size){

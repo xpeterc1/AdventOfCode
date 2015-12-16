@@ -30,48 +30,46 @@ public class Day16 {
 		ArrayList<Integer> tallyPart2 = new ArrayList<Integer>();
 
 		for(Aunt sue: aunts){
-			if(sue.getChildren() == 3){	
-				tallyPart1.add(sue.getNumber());
-				tallyPart2.add(sue.getNumber()); 
+			if(sue.children == 3){	
+				tallyPart1.add(sue.number);
+				tallyPart2.add(sue.number); 
 			}
-			if(sue.getCat() == 7) 		tallyPart1.add(sue.getNumber());
-			if(sue.getCat() > 7) 			tallyPart2.add(sue.getNumber()); 
+			if(sue.cat== 7) 		tallyPart1.add(sue.number);
+			if(sue.cat > 7) 		tallyPart2.add(sue.number); 
 
-			if(sue.getSamoyed() == 2){
-				tallyPart1.add(sue.getNumber());
-				tallyPart2.add(sue.getNumber()); 
+			if(sue.samoyed == 2){
+				tallyPart1.add(sue.number);
+				tallyPart2.add(sue.number); 
 			}
-			if(sue.getPomeranian() == 3)tallyPart1.add(sue.getNumber());	
-			if(sue.getPomeranian() < 3)		tallyPart2.add(sue.getNumber());			
+			if(sue.pomeranian == 3)tallyPart1.add(sue.number);	
+			if(sue.pomeranian < 3)	tallyPart2.add(sue.number);			
 
-			if(sue.getAkita() == 0){
-				tallyPart1.add(sue.getNumber());
-				tallyPart2.add(sue.getNumber()); 
+			if(sue.akita == 0){
+				tallyPart1.add(sue.number);
+				tallyPart2.add(sue.number);
 			}
-			if(sue.getVizsla() == 0){
-				tallyPart1.add(sue.getNumber());
-				tallyPart2.add(sue.getNumber()); 
+			if(sue.vizsla == 0){
+				tallyPart1.add(sue.number);
+				tallyPart2.add(sue.number); 
 			}
-			if(sue.getGoldfish() == 5)	tallyPart1.add(sue.getNumber());	
-			if(sue.getGoldfish() < 5)		tallyPart2.add(sue.getNumber());		
+			if(sue.goldfish == 5)	tallyPart1.add(sue.number);	
+			if(sue.goldfish < 5)	tallyPart2.add(sue.number);		
 
-			if(sue.getTree() == 3)		tallyPart1.add(sue.getNumber());			
-			if(sue.getTree() > 3)			tallyPart2.add(sue.getNumber());
+			if(sue.tree == 3)		tallyPart1.add(sue.number);			
+			if(sue.tree > 3)		tallyPart2.add(sue.number);
 
-			if(sue.getCars() == 2){
-				tallyPart1.add(sue.getNumber());
-				tallyPart2.add(sue.getNumber()); 
+			if(sue.cars == 2){
+				tallyPart1.add(sue.number);
+				tallyPart2.add(sue.number); 
 			}
-			if(sue.getPerfumes() == 1){
-				tallyPart1.add(sue.getNumber());
-				tallyPart2.add(sue.getNumber()); 
+			if(sue.perfumes == 1){
+				tallyPart1.add(sue.number);
+				tallyPart2.add(sue.number); 
 			}
 
 		}		
 		System.out.println("Part 1: your Aunt Sue's number is " + getMode(tallyPart1));
 		System.out.println("Part 2: your Aunt Sue's number is " + getMode(tallyPart2));
-
-
 	}
 
 	public static int getMode(ArrayList<Integer> list){
@@ -87,79 +85,32 @@ public class Day16 {
 				return o1.getValue().compareTo(o2.getValue());
 			}
 		}).getKey();
-
-	}
-	public static int getVal(String input){
-		switch(input){
-		case "children": return 1;
-		case "cats": return 2;
-		case "samoyeds": return 3;
-		case "pomeranians": return 4;
-		case "akitas": return 5;
-		case "vizslas": return 6;
-		case "goldfish": return 7;
-		case "trees": return 8;
-		case "cars": return 9;
-		case "perfumes": return 10;
-		}
-		return 11;
 	}
 
 	public static class Aunt{
 		int number, children, cat, samoyed, pomeranian, akita, vizsla, goldfish, tree, cars, perfumes;
-		
+
 		public Aunt(int number, String word1, int val1, String word2, int val2, String word3, int val3){
 			this.number = number;
-			incrementVal(getVal(word1), val1);
-			incrementVal(getVal(word2), val2);
-			incrementVal(getVal(word3), val3);
+			incrementVal(word1, val1);
+			incrementVal(word2, val2);
+			incrementVal(word3, val3);
 		}
-		private void incrementVal(int type, int value){
-			switch(type){
-			case 1: children += value; break;
-			case 2: cat += value; break;
-			case 3: samoyed += value; break;
-			case 4: pomeranian += value; break;
-			case 5: akita += value; break;
-			case 6: vizsla += value; break;
-			case 7: goldfish += value; break;
-			case 8: tree += value; break;
-			case 9: cars += value; break;
-			case 10: perfumes += value; break;
+		private void incrementVal(String word, int value){
+			switch(word){
+			case "children": children += value; break;
+			case "cats": cat += value; break;
+			case "samoyeds": samoyed += value; break;
+			case "pomeranians": pomeranian += value; break;
+			case "akitas": akita += value; break;
+			case "vizslas": vizsla += value; break;
+			case "goldfish": goldfish += value; break;
+			case "trees": tree += value; break;
+			case "cars": cars += value; break;
+			case "perfumes": perfumes += value; break;
+
 			}
 		}
-		public int getNumber(){
-			return number;
-		}
-		public int getChildren() {
-			return children;
-		}
-		public int getCat() {
-			return cat;
-		}
-		public int getSamoyed() {
-			return samoyed;
-		}
-		public int getPomeranian() {
-			return pomeranian;
-		}
-		public int getAkita() {
-			return akita;
-		}
-		public int getVizsla() {
-			return vizsla;
-		}
-		public int getGoldfish() {
-			return goldfish;
-		}
-		public int getTree() {
-			return tree;
-		}
-		public int getCars() {
-			return cars;
-		}
-		public int getPerfumes() {
-			return perfumes;
-		}
+
 	}
 }

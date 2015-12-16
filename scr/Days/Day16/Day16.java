@@ -26,56 +26,69 @@ public class Day16 {
 				aunts.add(new Aunt(num, mat.group(2), Integer.parseInt(mat.group(3)), mat.group(4), Integer.parseInt(mat.group(5)), mat.group(6), Integer.parseInt(mat.group(7))));
 			}	
 		}
-		ArrayList<Integer> tally = new ArrayList<Integer>();
+		ArrayList<Integer> tallyPart1 = new ArrayList<Integer>();
+		ArrayList<Integer> tallyPart2 = new ArrayList<Integer>();
 
 		for(Aunt sue: aunts){
-			if(sue.getChildren() == 3){
-				tally.add(sue.getNumber());
+			if(sue.getChildren() == 3){	
+				tallyPart1.add(sue.getNumber());
+				tallyPart2.add(sue.getNumber()); 
 			}
-			if(sue.getCat() == 7){
-				tally.add(sue.getNumber());
-			}
+			if(sue.getCat() == 7) 		tallyPart1.add(sue.getNumber());
+			if(sue.getCat() > 7) 			tallyPart2.add(sue.getNumber()); 
+			
 			if(sue.getSamoyed() == 2){
-				tally.add(sue.getNumber());
+				tallyPart1.add(sue.getNumber());
+				tallyPart2.add(sue.getNumber()); 
 			}
-			if(sue.getPomeranian() == 3){
-				tally.add(sue.getNumber());
-			}
+			if(sue.getPomeranian() == 3)tallyPart1.add(sue.getNumber());	
+			if(sue.getPomeranian() < 3)		tallyPart2.add(sue.getNumber());			
+
 			if(sue.getAkita() == 0){
-				tally.add(sue.getNumber());
+				tallyPart1.add(sue.getNumber());
+				tallyPart2.add(sue.getNumber()); 
 			}
 			if(sue.getVizsla() == 0){
-				tally.add(sue.getNumber());
+				tallyPart1.add(sue.getNumber());
+				tallyPart2.add(sue.getNumber()); 
 			}
-			if(sue.getGoldfish() == 5){
-				tally.add(sue.getNumber());
-			}
-			if(sue.getTree() == 3){
-				tally.add(sue.getNumber());
-			}
+			if(sue.getGoldfish() == 5)	tallyPart1.add(sue.getNumber());	
+			if(sue.getGoldfish() < 5)		tallyPart2.add(sue.getNumber());		
+
+			if(sue.getTree() == 3)		tallyPart1.add(sue.getNumber());			
+			if(sue.getTree() > 3)			tallyPart2.add(sue.getNumber());
+			
 			if(sue.getCars() == 2){
-				tally.add(sue.getNumber());
+				tallyPart1.add(sue.getNumber());
+				tallyPart2.add(sue.getNumber()); 
 			}
 			if(sue.getPerfumes() == 1){
-				tally.add(sue.getNumber());
+				tallyPart1.add(sue.getNumber());
+				tallyPart2.add(sue.getNumber()); 
 			}
-		}
+
+		}		
+		System.out.println("Part 1: your Aunt Sue's number is " + getMode(tallyPart1));
+		System.out.println("Part 2: your Aunt Sue's number is " + getMode(tallyPart2));
+
+
+	}
+
+	public static int getMode(ArrayList<Integer> list){
 		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		for (int i : tally) {
+		for (int i : list) {
 			Integer count = map.get(i);
 			map.put(i, count != null ? count+1 : 0);
 		}
-		Integer popular = Collections.max(map.entrySet(),
+		return Collections.max(map.entrySet(),
 				new Comparator<Map.Entry<Integer, Integer>>() {
 			@Override
 			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
 				return o1.getValue().compareTo(o2.getValue());
 			}
 		}).getKey();
-		System.out.println("Part 1: your Aunt Sue's number is " + popular);
-
+		
 	}
-
 	public static int getVal(String input){
 		switch(input){
 		case "children": return 1;

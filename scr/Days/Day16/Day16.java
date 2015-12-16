@@ -36,7 +36,7 @@ public class Day16 {
 			}
 			if(sue.getCat() == 7) 		tallyPart1.add(sue.getNumber());
 			if(sue.getCat() > 7) 			tallyPart2.add(sue.getNumber()); 
-			
+
 			if(sue.getSamoyed() == 2){
 				tallyPart1.add(sue.getNumber());
 				tallyPart2.add(sue.getNumber()); 
@@ -57,7 +57,7 @@ public class Day16 {
 
 			if(sue.getTree() == 3)		tallyPart1.add(sue.getNumber());			
 			if(sue.getTree() > 3)			tallyPart2.add(sue.getNumber());
-			
+
 			if(sue.getCars() == 2){
 				tallyPart1.add(sue.getNumber());
 				tallyPart2.add(sue.getNumber()); 
@@ -87,7 +87,7 @@ public class Day16 {
 				return o1.getValue().compareTo(o2.getValue());
 			}
 		}).getKey();
-		
+
 	}
 	public static int getVal(String input){
 		switch(input){
@@ -106,17 +106,8 @@ public class Day16 {
 	}
 
 	public static class Aunt{
-		int number;
-		int children;
-		int cat;
-		int samoyed;
-		int pomeranian;
-		int akita;
-		int vizsla;
-		int goldfish;
-		int tree;
-		int cars;
-		int perfumes;
+		int number, children, cat, samoyed, pomeranian, akita, vizsla, goldfish, tree, cars, perfumes;
+		
 		public Aunt(int number, String word1, int val1, String word2, int val2, String word3, int val3){
 			this.number = number;
 			incrementVal(getVal(word1), val1);

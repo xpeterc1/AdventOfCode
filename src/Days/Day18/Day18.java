@@ -9,17 +9,38 @@ public class Day18 {
 	public static void main(String... args) throws IOException{
 		List<String> lines = AdventFileReader.getLines("Day18input.txt");
 		boolean[][] lights = new boolean[100][100];
-		for(int i = 0; i < 100; i++){
-			String line = lines.get(i);
-			for(int j = 0; j < 100; j++){
-				lights[i][j] = (line.charAt(j) == '#');
+		int count;
+		for(int puzzlePart = 1; puzzlePart <=2; puzzlePart++){
+			for(int i = 0; i < 100; i++){
+				String line = lines.get(i);
+				for(int j = 0; j < 100; j++){
+					lights[i][j] = (line.charAt(j) == '#');
+				}
+			}
+			if(puzzlePart == 2){
+				lights[0][0] = true;
+				lights[0][99] = true;
+				lights[99][0] = true;
+				lights[99][99] = true;
+
+			}
+			for(int cycle = 0; cycle < 100; cycle++){
+				lights = update(lights);
+				if(puzzlePart == 2){
+					lights[0][0] = true;
+					lights[0][99] = true;
+					lights[99][0] = true;
+					lights[99][99] = true;
+
+				}
+			}
+			if(puzzlePart == 1){
+				System.out.println("Part 1:" + countLights(lights));
+			}else{
+				System.out.println("Part 2:" + countLights(lights));
+
 			}
 		}
-
-		for(int cycle = 0; cycle < 100; cycle++){
-			lights = update(lights);
-		}
-		System.out.println("Part 1:" + countLights(lights));
 
 	}
 

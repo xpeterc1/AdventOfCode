@@ -18,26 +18,18 @@ public class Day18 {
 			}
 
 			for(int cycle = 0; cycle < 100; cycle++){
-				if(puzzlePart == 2){
-					lights[0][0] = true;
-					lights[0][99] = true;
-					lights[99][0] = true;
-					lights[99][99] = true;
-				}
-				lights = update(lights);
-
+				lights = update(lights, puzzlePart);
 			}
 			if(puzzlePart == 1){
-				System.out.println("Part 1:" + countLights(lights));
+				System.out.println("Part 1: " + countLights(lights));
 			}else{
-				System.out.println("Part 2:" + countLights(lights));
-
+				System.out.println("Part 2: " + countLights(lights));
 			}
 		}
 
 	}
 
-	public static boolean[][] update(boolean[][] lights){
+	public static boolean[][] update(boolean[][] lights, int puzzlePart){
 		boolean[][] updatedLights = new boolean[100][100];
 		int val;
 		for(int i = 0; i < 100; i++){
@@ -48,6 +40,12 @@ public class Day18 {
 					updatedLights[i][j] = (getNeighbors(i, j, lights) == 3? true : false);
 				}
 			}
+		}
+		if(puzzlePart == 2){
+			updatedLights[0][0] = true;
+			updatedLights[0][99] = true;
+			updatedLights[99][0] = true;
+			updatedLights[99][99] = true;
 		}
 		return updatedLights;
 	}

@@ -2,7 +2,6 @@ package Days.Day19;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -16,25 +15,25 @@ import AdventUtil.AdventFileReader;
 public class Day19 {
 	static String KEYWORD = "KEY";
 	public static void main(String... args) throws IOException, InterruptedException{
-		List<String> lines = AdventFileReader.getLines("Day19input.txt");
+		List<String> lines = AdventFileReader.getLines("Day19input.txt"); //Day19input2.txt => harder testcase
 		Map<String, ArrayList<String>> replacements = getReplacements(lines);
 
 		String molecule = replacements.get(KEYWORD).get(0);
 		Set<String> combinations = getCombinations(molecule, replacements);
 		System.out.println("Part 1: How many distinct molecules can be created?\n" + combinations.size() + "\n");
-		System.out.println("Part 2: fewest number of steps to go from e to the medicine molecule??\n" + getAnswer(molecule, replacements) + "\n");
+		System.out.println("Part 2: fewest number of steps to go from e to the medicine molecule??\n" + getAnswer(molecule, replacements, 0) + "\n");
 	}
 
-	public static int getAnswer(String molecule, Map<String, ArrayList<String>> replacements){
-		int count = 0;	
-		while(!molecule.equals("e")){
-			for(String key: replacements.keySet()){
-				for(String value: replacements.get(key)){
-					if(molecule.contains(value)){
-						int index = molecule.indexOf(value);
-						molecule = molecule.substring(0, index) + key + molecule.substring(index + value.length());
-						count++;
-					}
+	public static int getAnswer(String molecule, Map<String, ArrayList<String>> replacements, int count){
+		if(molecule.equals("e")){
+			return count;
+		}
+		for(String key: replacements.keySet()){
+			for(String value: replacements.get(key)){
+				if(molecule.contains(value)){
+					int index = molecule.indexOf(value);
+					String nextMolecule = molecule.substring(0, index) + key + molecule.substring(index + value.length());
+					return getAnswer(nextMolecule, replacements, count + 1);
 				}
 			}
 		}

@@ -15,38 +15,25 @@ import AdventUtil.AdventFileReader;
 public class Day19 {
 	static String KEYWORD = "KEY";
 	public static void main(String... args) throws IOException, InterruptedException{
-		List<String> lines = AdventFileReader.getLines("Day19input.txt"); //Day19input2.txt => harder testcase
+		List<String> lines = AdventFileReader.getLines("Day19input.txt");
 		Map<String, ArrayList<String>> replacements = getReplacements(lines);
 
+		//gets the long input value from file
 		String molecule = replacements.get(KEYWORD).get(0);
-		Set<String> combinations = getCombinations(molecule, replacements);
-		System.out.println("Part 1: How many distinct molecules can be created?\n" + combinations.size() + "\n");
-		System.out.println("Part 2: fewest number of steps to go from e to the medicine molecule??\n" + getAnswer(molecule, replacements, 0) + "\n");
+
+		int part1 = getCombinationsSize(molecule, replacements);
+		System.out.println("Part 1: How many distinct molecules can be created?\n" + part1 + "\n");
+
+		int part2 = getMoleculeStepNum(new String(molecule), replacements, 0);
+		System.out.println("Part 2: Fewest number of steps to go from e to the medicine molecule??\n" + part2 + "\n");
 	}
 
-	public static int getAnswer(String molecule, Map<String, ArrayList<String>> replacements, int count){
-		if(molecule.equals("e")){
-			return count;
-		}
-		for(String key: replacements.keySet()){
-			for(String value: replacements.get(key)){
-				if(molecule.contains(value)){
-					int index = molecule.indexOf(value);
-					String nextMolecule = molecule.substring(0, index) + key + molecule.substring(index + value.length());
-					return getAnswer(nextMolecule, replacements, count + 1);
-				}
-			}
-		}
-		return count;
-	}
-
-	//put all replacements from input into a map
+	//pulls all replacements from input file into a map
 	public static Map<String, ArrayList<String>> getReplacements(List<String> lines){
 		Map<String, ArrayList<String>> replacements = new HashMap<String, ArrayList<String>>();
 		Pattern pat = Pattern.compile("(\\w+) => (\\w+)");
-		Matcher mat;
 		for(String line: lines){
-			mat = pat.matcher(line);
+			Matcher mat = pat.matcher(line);
 			if(mat.find()){
 				String key = mat.group(1);
 				String value = mat.group(2);
@@ -62,8 +49,8 @@ public class Day19 {
 		return replacements;
 	}
 
-	//search through the String to find any matching keywords from the MAP and try a replacement, save to a SET and return SET
-	public static Set<String> getCombinations(String molecule, Map<String, ArrayList<String>> replacements){
+	//search through the String to find any matching keywords from the MAP and try a replacement, save the new combination to SET
+	public static int getCombinationsSize(String molecule, Map<String, ArrayList<String>> replacements){
 		Set<String> combinations = new HashSet<String>();
 		StringBuilder candidate = new StringBuilder();
 		StringBuilder stringStart = new StringBuilder();
@@ -86,7 +73,25 @@ public class Day19 {
 				candidate = new StringBuilder();
 			}
 		}
-		return combinations;		
+		return combinations.size();		
 	}
+
+	public static int getMoleculeStepNum(String molecule, Map<String, ArrayList<String>> replacements, int count){
+		if(molecule.equals("e")){
+			return count;
+		}
+		for(String key: replacements.keySet()){
+			for(String value: replacements.get(key)){
+				if(molecule.contains(value)){
+					int index = molecule.indexOf(value);
+					String nextMolecule = molecule.substring(0, index) + key + molecule.substring(index + value.length());
+					return getMoleculeStepNum(nextMolecule, replacements, count + 1);
+				}
+			}
+		}
+		return count;
+	}
+
+
 
 }

@@ -17,11 +17,9 @@ public class Day21 {
 				for(Ring ring1: Ring.values()){
 					for(Ring ring2: Ring.values()){
 						if(ring1 != ring2 || ring1.ID == 6){
-							if(fightBoss(weapon,armor,ring1,ring2)){
-								int cost = weapon.getCost() + armor.getCost() + ring1.getCost() + ring2.getCost();
+							int cost = weapon.cost + armor.cost + ring1.cost + ring2.cost;							if(fightBoss(weapon,armor,ring1,ring2)){
 								amountSpend.add(cost);
 							}else{
-								int cost = weapon.getCost() + armor.getCost() + ring1.getCost() + ring2.getCost();
 								amountSpendLOSSING.add(cost);
 							}
 						}
@@ -40,8 +38,8 @@ public class Day21 {
 		int bossDMG = 8;
 		int bossARMOR = 1;
 		int heroHP = 100;
-		int heroDMG = weapon.getDamage() + ring1.getDamage() + ring2.getDamage();
-		int heroARMOR = armor.getArmor() + ring1.getArmor() + ring2.getArmor();
+		int heroDMG = weapon.damage + ring1.damage + ring2.damage;
+		int heroARMOR = armor.armor + ring1.armor + ring2.armor;
 		while(true){
 			int damageToBoss = heroDMG - bossARMOR;
 			bossHP -= Math.max(1, damageToBoss);
@@ -54,7 +52,6 @@ public class Day21 {
 				return false;
 			}
 		}
-		//return false;
 	}
 
 	static enum Weapon{
@@ -74,30 +71,9 @@ public class Day21 {
 			this.cost = cost;
 			this.damage = damage;
 			this.armor = armor;
-		}
-
-		private static Map<Integer, Weapon> listing = setMap();
-
-		private static Map<Integer, Weapon> setMap(){
-			Map<Integer, Weapon> tempList = new HashMap<Integer, Weapon>();
-			for(Weapon e : values()) {
-				tempList.put(e.ID, e);
-			}
-			return tempList;
-		}
-		public static Weapon getById(int id) {
-			return listing.get(id);
-		}
-		public int getDamage(){
-			return damage;
-		}
-		public int getCost(){
-			return cost;
-		}
-		public int getArmor(){
-			return armor;
-		}
+		}	
 	}
+
 	static enum Armor{
 		Leather(0, 13, 0, 1),
 		Chainmail(1, 31, 0, 2),
@@ -117,27 +93,6 @@ public class Day21 {
 			this.damage = damage;
 			this.armor = armor;
 		}
-		private static Map<Integer, Armor> listing = setMap();
-
-		private static Map<Integer, Armor> setMap(){
-			Map<Integer, Armor> tempList = new HashMap<Integer, Armor>();
-			for(Armor e : values()) {
-				tempList.put(e.ID, e);
-			}
-			return tempList;
-		}
-		public static Armor getById(int id) {
-			return listing.get(id);
-		}
-		public int getDamage(){
-			return damage;
-		}
-		public int getCost(){
-			return cost;
-		}
-		public int getArmor(){
-			return armor;
-		}
 	}
 
 	static enum Ring{
@@ -154,33 +109,11 @@ public class Day21 {
 		private final int damage;
 		private final int armor;
 
-
 		private Ring(int ID, int cost, int damage, int armor){
 			this.ID = ID;
 			this.cost = cost;
 			this.damage = damage;
 			this.armor = armor;
-		}
-		private static Map<Integer, Ring> listing = setMap();
-
-		private static Map<Integer, Ring> setMap(){
-			Map<Integer, Ring> tempList = new HashMap<Integer, Ring>();
-			for(Ring e : values()) {
-				tempList.put(e.ID, e);
-			}
-			return tempList;
-		}
-		public static Ring getById(int id) {
-			return listing.get(id);
-		}
-		public int getDamage(){
-			return damage;
-		}
-		public int getCost(){
-			return cost;
-		}
-		public int getArmor(){
-			return armor;
 		}
 	}
 }

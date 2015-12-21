@@ -1,6 +1,5 @@
 package Days.Day21;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,7 +8,7 @@ public class Day21 {
 	static final int BOSS_HEALTH = 104;
 	static final int BOSS_DAMAGE = 8;
 	static final int BOSS_ARMOR = 1;
-	public static void main(String... args) throws IOException{
+	public static void main(String... args){
 		ArrayList<Integer> totalCostWin = new ArrayList<Integer>();
 		ArrayList<Integer> totalCostLose = new ArrayList<Integer>();
 		for(Weapon weapon: Weapon.values()) 

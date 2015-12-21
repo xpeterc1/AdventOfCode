@@ -16,7 +16,7 @@ public class Day21 {
 			for(Armor armor: Armor.values()){
 				for(Ring ring1: Ring.values()){
 					for(Ring ring2: Ring.values()){
-						if(ring1 != ring2 || ring1.ID == 6){
+						if(ring1 != ring2 || ring1 == Ring.NONE){
 							int cost = weapon.cost + armor.cost + ring1.cost + ring2.cost;							if(fightBoss(weapon,armor,ring1,ring2)){
 								amountSpend.add(cost);
 							}else{
@@ -55,19 +55,17 @@ public class Day21 {
 	}
 
 	static enum Weapon{
-		Dagger(0, 8, 4, 0),
-		Shortsword(1, 10, 5, 0),
-		Warhammer(2, 25, 6, 0),
-		Longsword(3, 40, 7, 0),
-		Greataxe(4, 74, 8, 0);
+		Dagger(8, 4, 0),
+		Shortsword(10, 5, 0),
+		Warhammer(25, 6, 0),
+		Longsword(40, 7, 0),
+		Greataxe(74, 8, 0);
 
-		private final int ID;
 		private final int cost;
 		private final int damage;
 		private final int armor;
 
-		private Weapon(int ID, int cost, int damage, int armor){
-			this.ID = ID;
+		private Weapon(int cost, int damage, int armor){
 			this.cost = cost;
 			this.damage = damage;
 			this.armor = armor;
@@ -75,20 +73,18 @@ public class Day21 {
 	}
 
 	static enum Armor{
-		Leather(0, 13, 0, 1),
-		Chainmail(1, 31, 0, 2),
-		Splintermail(2, 53, 0, 3),
-		Bandedmail(3, 75, 0, 4),
-		Platemail(4, 102, 0, 5),
-		NONE(5, 0, 0, 0);
+		Leather(13, 0, 1),
+		Chainmail(31, 0, 2),
+		Splintermail(53, 0, 3),
+		Bandedmail(75, 0, 4),
+		Platemail(102, 0, 5),
+		NONE(0, 0, 0);
 
-		private final int ID;
 		private final int cost;
 		private final int damage;
 		private final int armor;
 
-		private Armor(int ID, int cost, int damage, int armor){
-			this.ID = ID;
+		private Armor(int cost, int damage, int armor){
 			this.cost = cost;
 			this.damage = damage;
 			this.armor = armor;
@@ -96,21 +92,19 @@ public class Day21 {
 	}
 
 	static enum Ring{
-		Damage1(0, 25, 1, 0),
-		Damage2(1, 50, 2, 0),
-		Damage3(2, 100, 3, 0),
-		Defense1(3, 20, 0, 1),
-		Defense2(4, 40, 0, 2),
-		Defense3(5, 80, 0, 3),
-		NONE(6, 0, 0, 0);
+		Damage1(25, 1, 0),
+		Damage2(50, 2, 0),
+		Damage3(100, 3, 0),
+		Defense1(20, 0, 1),
+		Defense2(40, 0, 2),
+		Defense3( 80, 0, 3),
+		NONE( 0, 0, 0);
 
-		private final int ID;
 		private final int cost;
 		private final int damage;
 		private final int armor;
 
-		private Ring(int ID, int cost, int damage, int armor){
-			this.ID = ID;
+		private Ring(int cost, int damage, int armor){
 			this.cost = cost;
 			this.damage = damage;
 			this.armor = armor;

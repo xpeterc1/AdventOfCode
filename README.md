@@ -1,4 +1,4 @@
 # AdventOfCode
-My solutions for AdventOfCode.com coding problems
+Advent of Code 2015, solutions in Java
 
 http://adventofcode.com/

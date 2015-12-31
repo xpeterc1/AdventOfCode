@@ -73,13 +73,13 @@ public class Day21 {
 	}
 
 	static enum Ring{
-		Damage1		(25, 	1, 		0),
-		Damage2		(50, 	2, 		0),
-		Damage3		(100, 	3, 		0),
-		Defense1	(20, 	0, 		1),
-		Defense2	(40, 	0, 		2),
-		Defense3	(80, 	0, 		3),
-		NONE		(0, 	0, 		0);
+		Damage1		(25, 	1, 	0),
+		Damage2		(50, 	2, 	0),
+		Damage3		(100, 	3, 	0),
+		Defense1	(20, 	0, 	1),
+		Defense2	(40, 	0, 	2),
+		Defense3	(80, 	0, 	3),
+		NONE		(0, 	0, 	0);
 
 		public final int cost, damage, armor;
 

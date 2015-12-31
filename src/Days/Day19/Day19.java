@@ -28,7 +28,7 @@ public class Day19 {
 		System.out.println("Part 2: Fewest number of steps to go from e to the medicine molecule??\n" + part2 + "\n");
 	}
 
-	//pulls all replacements from input file into a map
+	//pulls all replacements values from input file and store into a MAP
 	public static Map<String, ArrayList<String>> getReplacements(List<String> lines){
 		Map<String, ArrayList<String>> replacements = new HashMap<String, ArrayList<String>>();
 		Pattern pat = Pattern.compile("(\\w+) => (\\w+)");
@@ -49,11 +49,10 @@ public class Day19 {
 		return replacements;
 	}
 
-	//search through the String to find any matching keywords from the MAP and try a replacement, save the new combination to SET
+	//search for substrings that are equal to keys to MAP, replace substring with value from MAP, save the new string to SET
 	public static int getCombinationsSize(String molecule, Map<String, ArrayList<String>> replacements){
 		Set<String> combinations = new HashSet<String>();
 		StringBuilder candidate = new StringBuilder();
-		StringBuilder stringStart = new StringBuilder();
 
 		for(int i = 0; i < molecule.length(); i++){
 			char charAt = molecule.charAt(i);
@@ -61,12 +60,11 @@ public class Day19 {
 				candidate = new StringBuilder();
 			}
 
-			stringStart.append(charAt);
 			candidate.append(charAt);
 
 			if(replacements.containsKey(candidate.toString())) {
-				String endStr = molecule.substring(i+1 > molecule.length()? i : i+1);
-				String beginStr = stringStart.substring(0, stringStart.length()-candidate.length());
+				String beginStr = molecule.substring(0, i+1-candidate.length());
+				String endStr = molecule.substring(i+1);
 				for(String replacementStr: replacements.get(candidate.toString())){
 					combinations.add(beginStr + replacementStr + endStr);
 				}
@@ -76,14 +74,15 @@ public class Day19 {
 		return combinations.size();		
 	}
 
+	//starting with long input string, recursively search for a substring we can replace till string equals e, if not backtrack
 	public static int getMoleculeStepNum(String molecule, Map<String, ArrayList<String>> replacements, int count){
 		if(molecule.equals("e")){
 			return count;
 		}
 		for(String key: replacements.keySet()){
 			for(String value: replacements.get(key)){
-				if(molecule.contains(value)){
-					int index = molecule.indexOf(value);
+				int index = -1;
+				if((index = molecule.indexOf(value)) != -1){
 					String nextMolecule = molecule.substring(0, index) + key + molecule.substring(index + value.length());
 					return getMoleculeStepNum(nextMolecule, replacements, count + 1);
 				}
@@ -91,7 +90,4 @@ public class Day19 {
 		}
 		return count;
 	}
-
-
-
 }

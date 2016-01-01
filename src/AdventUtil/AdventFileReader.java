@@ -8,15 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdventFileReader {
-	public static ArrayList<String> getLines(String fileName) throws IOException{
-		FileReader fileReader = new FileReader(System.getProperty("user.dir") + "/inputs/" + fileName);
-		BufferedReader br = new BufferedReader(fileReader);
-		ArrayList<String> list = new ArrayList<String>();
-		String line = null;
-		while((line = br.readLine()) != null){
-			list.add(line);
+	public static ArrayList<String> getLines(String fileName){
+		FileReader fileReader;
+		try {
+			fileReader = new FileReader(System.getProperty("user.dir") + "/inputs/" + fileName);
+			BufferedReader br = new BufferedReader(fileReader);
+			ArrayList<String> list = new ArrayList<String>();
+			String line = null;
+			while((line = br.readLine()) != null){
+				list.add(line);
+			}
+			return list;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return list;		
+		return null;
+			
 	}
 	public AdventFileReader(){
 		

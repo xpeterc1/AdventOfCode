@@ -15,8 +15,9 @@ public class Day12 {
 		}
 	}
 	
-	static int getValue(Object object, boolean exclusion) throws Exception {
+	static int getValue(Object input, boolean exclusion) throws Exception {
 		int total = 0;
+		Object object = new JSONTokener(input.toString()).nextValue();
 		if (object instanceof JSONArray) {
 			for (int i = 0; i < ((JSONArray)object).length(); ++i) {
 				total += getValue(((JSONArray)object).get(i), exclusion);;   
@@ -40,8 +41,7 @@ public class Day12 {
 			return Integer.parseInt(object.toString());
 		}
 		return 0;
-	}
-	
+	}	
 
 	public static boolean isInteger(String str) {
 		try { 

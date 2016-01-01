@@ -8,30 +8,19 @@ import AdventUtil.AdventFileReader;
 public class Day18 {
 	public static void main(String... args) throws IOException{
 		List<String> lines = AdventFileReader.getLines("Day18input.txt");
-		boolean[][] lights = new boolean[100][100];
-		for(int puzzlePart = 1; puzzlePart <=2; puzzlePart++){
-			for(int i = 0; i < 100; i++){
-				String line = lines.get(i);
-				for(int j = 0; j < 100; j++){
-					lights[i][j] = (line.charAt(j) == '#');
-				}
-			}
-
-			for(int cycle = 0; cycle < 100; cycle++){
-				lights = update(lights, puzzlePart);
-			}
-			if(puzzlePart == 1){
-				System.out.println("Part 1: " + countLights(lights));
-			}else{
-				System.out.println("Part 2: " + countLights(lights));
-			}
-		}
-
+		System.out.println("Part 1: " + countLights(lines, false));
+		System.out.println("Part 2: " + countLights(lines, true));
 	}
 
-	public static boolean[][] update(boolean[][] lights, int puzzlePart){
+	public static boolean[][] update(boolean[][] lights, boolean part2){
 		boolean[][] updatedLights = new boolean[100][100];
 		int val;
+		if(part2){
+			lights[0][0] = true;
+			lights[0][99] = true;
+			lights[99][0] = true;
+			lights[99][99] = true;
+		}
 		for(int i = 0; i < 100; i++){
 			for(int j = 0; j < 100; j++){
 				if(lights[i][j]){
@@ -41,7 +30,7 @@ public class Day18 {
 				}
 			}
 		}
-		if(puzzlePart == 2){
+		if(part2){
 			updatedLights[0][0] = true;
 			updatedLights[0][99] = true;
 			updatedLights[99][0] = true;
@@ -61,7 +50,17 @@ public class Day18 {
 		return count;
 	}
 
-	public static int countLights(boolean[][] lights){
+	public static int countLights(List<String> lines, boolean part2){
+		boolean[][] lights = new boolean[100][100];
+		for(int i = 0; i < 100; i++){
+			String line = lines.get(i);
+			for(int j = 0; j < 100; j++){
+				lights[i][j] = (line.charAt(j) == '#');
+			}
+		}
+		for(int cycle = 0; cycle < 100; cycle++){
+			lights = update(lights, part2);
+		}
 		int count = 0;
 		for(int i = 0; i < 100; i++){
 			for(int j = 0; j < 100; j++){

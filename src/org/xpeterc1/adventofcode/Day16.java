@@ -1,116 +1,91 @@
 package org.xpeterc1.adventofcode;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import AdventUtil.AdventFileReader;
 
 public class Day16 {
+	public static int CHILDREN = 3;
+	public static int CATS = 7;
+	public static int SAMOYEDS = 2;
+	public static int POMERANIANS = 3;
+	public static int AKITAS = 0;
+	public static int VIZSLAS = 0;
+	public static int GOLDFISH = 5;
+	public static int TREES = 3;
+	public static int CARS = 2;
+	public static int PERFUMES = 1;
+
 	public static void main(String... args) throws IOException{
 		ArrayList<String> lines = AdventFileReader.getLines("Day16input.txt");
-		ArrayList<Aunt> aunts = new ArrayList<Aunt>();
+		System.out.println("Part 1: " + getAuntSue(lines, false));
+		System.out.println("Part 2: " + getAuntSue(lines, true));
+
+	}
+	public static int getAuntSue(List<String> lines, boolean part2){
 		Pattern pat = Pattern.compile("Sue (\\d+): (\\w+): (\\d+), (\\w+): (\\d+), (\\w+): (\\d+)");
-		Matcher mat;
-		int num = 0;
+
 		for(String line: lines){
-			mat = pat.matcher(line);
+			Matcher mat = pat.matcher(line);
 			if(mat.find()){
-				num++;
-				aunts.add(new Aunt(num, mat.group(2), Integer.parseInt(mat.group(3)), mat.group(4), Integer.parseInt(mat.group(5)), mat.group(6), Integer.parseInt(mat.group(7))));
-			}	
+				Map<String, Integer> items = new HashMap<String, Integer>();
+				for(int i = 0; i < 3; i++){
+					items.put(mat.group(2+(i*2)), Integer.parseInt(mat.group(3+(i*2))));
+				}
+				if(isAuntSue(items, part2)){
+					return Integer.parseInt(mat.group(1));
+				}
+			}
 		}
-		ArrayList<Integer> tallyPart1 = new ArrayList<Integer>();
-		ArrayList<Integer> tallyPart2 = new ArrayList<Integer>();
-
-		for(Aunt sue: aunts){
-			if(sue.children == 3){	
-				tallyPart1.add(sue.number);
-				tallyPart2.add(sue.number); 
-			}
-			if(sue.cat== 7) 		tallyPart1.add(sue.number);
-			if(sue.cat > 7) 		tallyPart2.add(sue.number); 
-
-			if(sue.samoyed == 2){
-				tallyPart1.add(sue.number);
-				tallyPart2.add(sue.number); 
-			}
-			if(sue.pomeranian == 3)tallyPart1.add(sue.number);	
-			if(sue.pomeranian < 3)	tallyPart2.add(sue.number);			
-
-			if(sue.akita == 0){
-				tallyPart1.add(sue.number);
-				tallyPart2.add(sue.number);
-			}
-			if(sue.vizsla == 0){
-				tallyPart1.add(sue.number);
-				tallyPart2.add(sue.number); 
-			}
-			if(sue.goldfish == 5)	tallyPart1.add(sue.number);	
-			if(sue.goldfish < 5)	tallyPart2.add(sue.number);		
-
-			if(sue.tree == 3)		tallyPart1.add(sue.number);			
-			if(sue.tree > 3)		tallyPart2.add(sue.number);
-
-			if(sue.cars == 2){
-				tallyPart1.add(sue.number);
-				tallyPart2.add(sue.number); 
-			}
-			if(sue.perfumes == 1){
-				tallyPart1.add(sue.number);
-				tallyPart2.add(sue.number); 
-			}
-
-		}		
-		System.out.println("Part 1: your Aunt Sue's number is " + getMode(tallyPart1));
-		System.out.println("Part 2: your Aunt Sue's number is " + getMode(tallyPart2));
+		return 0;
 	}
 
-	public static int getMode(ArrayList<Integer> list){
-		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-		for (int i : list) {
-			Integer count = map.get(i);
-			map.put(i, count != null ? count+1 : 0);
-		}
-		return Collections.max(map.entrySet(),
-				new Comparator<Map.Entry<Integer, Integer>>() {
-			@Override
-			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
-				return o1.getValue().compareTo(o2.getValue());
+	public static boolean isAuntSue(Map<String, Integer> items, boolean part2){
+		int total = 0;
+		for(String key: items.keySet()){
+			int value = items.get(key);
+			switch(key){
+			case"children": 
+				if(value == CHILDREN) total++; break;
+			case"cats":
+				if(part2){
+					if(value > CATS) total++; break;			
+				}
+				else if(value == CATS) total++; break;
+			case"samoyeds":
+				if(value == SAMOYEDS) total++; break;
+			case"pomeranians":
+				if(part2){ 
+					if(value < POMERANIANS) total++; break;
+				}
+				else if(value == POMERANIANS) total++; break;
+			case"akitas":
+				if(value == AKITAS) total++; break;
+			case"vizslas":
+				if(value == VIZSLAS) total++; break;
+			case"goldfish":
+				if(part2){
+					if(value < GOLDFISH) total++; break;
+				}
+				else if(value == GOLDFISH) total++; break;
+			case"trees":
+				if(part2){
+					if(value > TREES) total++; break;
+				}
+				else if(value == TREES) total++; break;
+			case"cars":
+				if(value == CARS) total++; break;
+			case"perfumes":
+				if(value == PERFUMES) total++; break;
 			}
-		}).getKey();
-	}
-
-	public static class Aunt{
-		int number, children, cat, samoyed, pomeranian, akita, vizsla, goldfish, tree, cars, perfumes;
-
-		public Aunt(int number, String word1, int val1, String word2, int val2, String word3, int val3){
-			this.number = number;
-			incrementVal(word1, val1);
-			incrementVal(word2, val2);
-			incrementVal(word3, val3);
 		}
-		private void incrementVal(String word, int value){
-			switch(word){
-			case "children": children += value; break;
-			case "cats": cat += value; break;
-			case "samoyeds": samoyed += value; break;
-			case "pomeranians": pomeranian += value; break;
-			case "akitas": akita += value; break;
-			case "vizslas": vizsla += value; break;
-			case "goldfish": goldfish += value; break;
-			case "trees": tree += value; break;
-			case "cars": cars += value; break;
-			case "perfumes": perfumes += value; break;
-
-			}
-		}
-
+		return total == 3;
 	}
 }

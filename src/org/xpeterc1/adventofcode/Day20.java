@@ -26,8 +26,8 @@ public class Day20 {
 	public static int part2(int target){
 		int[] houses = new int[1000000];
 		for(int i = 1; i < houses.length; i++) {
-			int fiftyHouses = Math.min(i * 50, houses.length);
-			for(int j = i; j < fiftyHouses; j+=i) {
+			int fiftyHouses = Math.min(i * 50, houses.length-1);
+			for(int j = i; j <= fiftyHouses; j+=i) {
 				houses[j] += i;
 			}
 			if(houses[i] * 11 >= target) {

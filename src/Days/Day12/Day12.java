@@ -24,7 +24,7 @@ public class Day12 {
 			}
 			return total;
 		}
-		
+	
 		if (object instanceof JSONObject) {
 			JSONObject jsonObject = (JSONObject) object;
 			JSONArray names = jsonObject.names();

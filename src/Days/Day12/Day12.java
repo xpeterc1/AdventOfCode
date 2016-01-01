@@ -9,10 +9,9 @@ public class Day12 {
 	static final String EXCLUDE = "red";
 	public static void main(String[] args) throws Exception {
 		List<String> lines = AdventFileReader.getLines("Day12input.txt");
-		for(String line: lines){
-			System.out.println("Part 1: " + getValue(new JSONArray(line), false));			
-			System.out.println("Part 2: " + getValue(new JSONArray(line), true));			
-		}
+			System.out.println("Part 1: " + getValue(lines.get(0), false));			
+			System.out.println("Part 2: " + getValue(lines.get(0), true));			
+		
 	}
 	
 	static int getValue(Object input, boolean exclusion) throws Exception {
@@ -24,7 +23,6 @@ public class Day12 {
 			}
 			return total;
 		}
-	
 		if (object instanceof JSONObject) {
 			JSONObject jsonObject = (JSONObject) object;
 			JSONArray names = jsonObject.names();
@@ -38,7 +36,6 @@ public class Day12 {
 			}
 			return total;
 		}
-		
 		if (isInteger(object.toString())){
 			return Integer.parseInt(object.toString());
 		}
